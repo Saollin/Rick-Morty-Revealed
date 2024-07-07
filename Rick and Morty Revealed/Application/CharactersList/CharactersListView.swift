@@ -44,15 +44,17 @@ struct CharactersListView: View {
                             } else {
                                 LazyVStack {
                                     ForEachStore(store.scope(state: \.characters, action: \.characters)) { characterDetailsStore in
-                                        NavigationLink(
-                                            destination: CharacterDetailsView(store: characterDetailsStore),
-                                            label: {
-                                                CharacterItemView(character: characterDetailsStore.state.character)
-                                                    .onAppear {
-                                                        store.send(.retrieveNextPageIfNeeded(currentItem: characterDetailsStore.id))
-                                                    }
-                                            }
-                                        )
+                                        WithPerceptionTracking {
+                                            NavigationLink(
+                                                destination: CharacterDetailsView(store: characterDetailsStore),
+                                                label: {
+                                                    CharacterItemView(character: characterDetailsStore.state.character)
+                                                        .onAppear {
+                                                            store.send(.retrieveNextPageIfNeeded(currentItem: characterDetailsStore.id))
+                                                        }
+                                                }
+                                            )
+                                        }
                                     }
                                     ActivityIndicator(
                                         style: .large,
@@ -76,44 +78,4 @@ struct CharactersListView: View {
             CharactersList()
         }
     )
-}
-
-struct FadeInFullScreenCoverModifier<V: View>: ViewModifier {
-    @Binding var isPresented: Bool
-    @ViewBuilder let view: () -> V
-    @State var isPresentedInternal = false
-    func body(content: Content) -> some View {
-        content
-            .fullScreenCover(isPresented: Binding<Bool>(
-                get: { isPresented },
-                set: { isPresentedInternal = $0 }
-            )) {
-                Group {
-                    if isPresentedInternal {
-                        view()
-                            .transition(.opacity)
-                            .onDisappear { isPresented = false }
-                    }
-                }
-                .onAppear { isPresentedInternal = true }
-//                .presentationBackground(.clear)
-            }
-            .transaction {
-                // Disable default fullScreenCover animation
-                $0.disablesAnimations = true
-                // Add custom animation
-                $0.animation = .easeInOut
-            }
-    }
-}
-extension View {
-    func fadeInFullScreenCover<V: View>(
-        isPresented: Binding<Bool>,
-        content: @escaping () -> V
-    ) -> some View {
-        modifier(FadeInFullScreenCoverModifier(
-            isPresented: isPresented,
-            view: content
-        ))
-    }
 }

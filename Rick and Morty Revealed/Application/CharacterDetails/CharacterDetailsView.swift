@@ -13,7 +13,7 @@ struct CharacterDetailsView: View {
         static let spacing: CGFloat = 16.0
     }
 
-    var store: StoreOf<CharacterDetails>
+    @Perception.Bindable var store: StoreOf<CharacterDetails>
     
     var character: Character {
         store.character
@@ -37,35 +37,47 @@ struct CharacterDetailsView: View {
                     Text(character.name)
                         .font(.title)
                     VStack {
-                        descriptionView("Status", value: character.status.rawValue)
-                        descriptionView("Gender", value: character.gender.rawValue)
-                        descriptionView("Origin location", value: character.origin.name)
-                        descriptionView("Current location", value: character.location.name)
+                        DescriptionView(
+                            info: "Status",
+                            value: character.status.rawValue
+                        )
+                        DescriptionView(
+                            info: "Gender",
+                            value: character.gender.rawValue
+                        )
+                        DescriptionView(
+                            info: "Origin location",
+                            value: character.origin.name
+                        )
+                        DescriptionView(
+                            info: "Current location",
+                            value: character.location.name
+                        )
                     }
                     Text("List of episodes")
                         .font(.headline)
                 
                     LazyVStack {
-                        ForEach(character.episodesNumber, id: \.self) {
-                            Text("Episode \($0)")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .border(.red)
+                        ForEach(store.character.episodesNumber, id: \.self) { number in
+                            WithPerceptionTracking {
+                                Text("Episode \(number)")
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .border(.red)
+                                    .onTapGesture {
+                                        store.send(.episodeTapped(number: number))
+                                    }
+                            }
                         }
                     }
                 }
                 
             }
+            .navigationTitle("Character details")
             .padding(.horizontal, 16.0)
         }
-    }
-    
-    func descriptionView(_ info: String, value: String) -> some View {
-        HStack {
-            Text(info)
-                .italic()
-            Spacer()
-            Text(value)
+        .sheet(item: $store.scope(state: \.episodeDetails, action: \.episodeDetails)) { episodeDetailsStore in
+                EpisodeDetailsView(store: episodeDetailsStore)
         }
     }
 }

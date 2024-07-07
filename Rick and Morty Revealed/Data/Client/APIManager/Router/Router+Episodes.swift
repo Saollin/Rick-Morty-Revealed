@@ -6,12 +6,10 @@
 import Foundation
 
 extension Route {
-    static func episode(_ page: Int) -> Route {
+    static func episode(_ number: Int) -> Route {
         Route(
-            path: "character",
-            queryItems: [
-                .init(name: "page", value: "\(page)")
-            ]
+            path: "episode/\(number)",
+            queryItems: nil
         )
     }
 }

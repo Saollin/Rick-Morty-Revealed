@@ -29,8 +29,6 @@ struct Character: Decodable, Equatable, Identifiable {
     var location: LocationInfo
     var image: String
     var episode: [String]
-    var url: String
-    var created: Date
 }
 
 extension Character {
@@ -64,9 +62,7 @@ extension Character {
         episode: [
             "https://rickandmortyapi.com/api/episode/1",
             "https://rickandmortyapi.com/api/episode/2"
-        ],
-        url: "https://rickandmortyapi.com/api/character/1",
-        created: Date()
+        ]
     )
     static let mock2 = Character(
         id: 2,
@@ -87,7 +83,5 @@ extension Character {
         episode: [
             "https://rickandmortyapi.com/api/episode/1",
             "https://rickandmortyapi.com/api/episode/2"
-        ],
-        url: "https://rickandmortyapi.com/api/character/2",
-        created: Date()
+        ]
     )}

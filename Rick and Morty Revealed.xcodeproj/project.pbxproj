@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9B759FD42C3ADAEE00D00F17 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B759FD32C3ADAEE00D00F17 /* Episode.swift */; };
+		9B759FDB2C3B0F4E00D00F17 /* EpisodeDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B759FDA2C3B0F4E00D00F17 /* EpisodeDetailsView.swift */; };
+		9B759FDD2C3B0F5D00D00F17 /* EpisodeDetailsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B759FDC2C3B0F5D00D00F17 /* EpisodeDetailsReducer.swift */; };
+		9B759FDF2C3B103A00D00F17 /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B759FDE2C3B103A00D00F17 /* DescriptionView.swift */; };
 		9BADBBF22C360399002EA52A /* RickAndMortyRevealedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BADBBF12C360399002EA52A /* RickAndMortyRevealedApp.swift */; };
 		9BADBBF62C36039A002EA52A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BADBBF52C36039A002EA52A /* Assets.xcassets */; };
 		9BADBBF92C36039A002EA52A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BADBBF82C36039A002EA52A /* Preview Assets.xcassets */; };
@@ -30,6 +33,9 @@
 
 /* Begin PBXFileReference section */
 		9B759FD32C3ADAEE00D00F17 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
+		9B759FDA2C3B0F4E00D00F17 /* EpisodeDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsView.swift; sourceTree = "<group>"; };
+		9B759FDC2C3B0F5D00D00F17 /* EpisodeDetailsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsReducer.swift; sourceTree = "<group>"; };
+		9B759FDE2C3B103A00D00F17 /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
 		9BADBBEE2C360399002EA52A /* Rick and Morty Revealed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rick and Morty Revealed.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BADBBF12C360399002EA52A /* RickAndMortyRevealedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyRevealedApp.swift; sourceTree = "<group>"; };
 		9BADBBF52C36039A002EA52A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B759FD92C3B0F3900D00F17 /* EpisodeDetails */ = {
+			isa = PBXGroup;
+			children = (
+				9B759FDA2C3B0F4E00D00F17 /* EpisodeDetailsView.swift */,
+				9B759FDC2C3B0F5D00D00F17 /* EpisodeDetailsReducer.swift */,
+			);
+			path = EpisodeDetails;
+			sourceTree = "<group>";
+		};
 		9BADBBE52C360399002EA52A = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +158,7 @@
 		9BCBDEE62C38BA0900B39141 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				9B759FD92C3B0F3900D00F17 /* EpisodeDetails */,
 				9BFE325A2C395E2700841E45 /* CharacterDetails */,
 				9BFE32502C38E00F00841E45 /* CharactersList */,
 				9BCBDEE72C38BA1200B39141 /* Launch */,
@@ -208,6 +224,7 @@
 			children = (
 				9BFE32562C394A0A00841E45 /* ActivityIndicator.swift */,
 				9BFE32582C394D0400841E45 /* CharacterItemView.swift */,
+				9B759FDE2C3B103A00D00F17 /* DescriptionView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -300,9 +317,11 @@
 				9BFE324B2C38D28C00841E45 /* APIManager.swift in Sources */,
 				9B759FD42C3ADAEE00D00F17 /* Episode.swift in Sources */,
 				9BFE32522C38E02B00841E45 /* CharactersListView.swift in Sources */,
+				9B759FDB2C3B0F4E00D00F17 /* EpisodeDetailsView.swift in Sources */,
 				9BFE32592C394D0400841E45 /* CharacterItemView.swift in Sources */,
 				9BFE32492C38CAAC00841E45 /* APIClient.swift in Sources */,
 				9BFE32572C394A0A00841E45 /* ActivityIndicator.swift in Sources */,
+				9B759FDF2C3B103A00D00F17 /* DescriptionView.swift in Sources */,
 				9BFE32542C38E03600841E45 /* CharactersListReducer.swift in Sources */,
 				9BFE32602C39673300841E45 /* Router+Episodes.swift in Sources */,
 				9BFE32452C38C79000841E45 /* Environment.swift in Sources */,
@@ -311,6 +330,7 @@
 				9BFE325E2C3961D400841E45 /* CharacterDetailsReducer.swift in Sources */,
 				9BCBDEDE2C38960200B39141 /* Pagination.swift in Sources */,
 				9BCBDEE02C38962B00B39141 /* Character.swift in Sources */,
+				9B759FDD2C3B0F5D00D00F17 /* EpisodeDetailsReducer.swift in Sources */,
 				9BADBBF22C360399002EA52A /* RickAndMortyRevealedApp.swift in Sources */,
 				9BFE325C2C395E3500841E45 /* CharacterDetailsView.swift in Sources */,
 			);

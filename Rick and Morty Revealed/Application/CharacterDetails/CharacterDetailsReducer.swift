@@ -12,19 +12,30 @@ struct CharacterDetails {
     struct State: Equatable, Identifiable {
         let id: UUID
         
+        @Presents var episodeDetails: EpisodeDetails.State?
         var character: Character
     }
     
     enum Action {
-        case backButtonTapped
+        case episodeTapped(number: Int)
+        case episodeDetails(PresentationAction<EpisodeDetails.Action>)
     }
+    
+    @Dependency(\.apiClient) var apiClient
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .backButtonTapped:
+            case .episodeTapped(number: let number):
+                state.episodeDetails = EpisodeDetails.State(episodeNumber: number)
+                return .none
+                
+            case .episodeDetails:
                 return .none
             }
+        }
+        .ifLet(\.$episodeDetails, action: \.episodeDetails) {
+            EpisodeDetails()
         }
     }
 }
