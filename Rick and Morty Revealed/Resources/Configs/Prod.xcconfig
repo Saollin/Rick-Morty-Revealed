@@ -1,0 +1,12 @@
+// 
+// Prod.xcconfig
+// Rick and Morty Revealed
+// 
+
+// Server URL
+API_URL = rickandmortyapi.com
+API_BASE_PATH = api
+
+// App Settings
+APP_NAME = Rick and Morty Revealed
+APP_BUNDLE_ID = g.janosz.rmrevealed
