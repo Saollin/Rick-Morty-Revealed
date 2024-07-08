@@ -45,7 +45,10 @@ struct CharacterDetailsView: View {
         .navigationBarHidden(true)
         .appBackgroundStyle()
         .sheet(item: $store.scope(state: \.episodeDetails, action: \.episodeDetails)) { episodeDetailsStore in
+            ZStack {
+                Color.rmPrimary.edgesIgnoringSafeArea(.all)
                 EpisodeDetailsView(store: episodeDetailsStore)
+            }
         }
     }
     

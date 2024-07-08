@@ -6,12 +6,6 @@
 import SwiftUI
 
 struct CharacterItemView: View {
-    private enum Constants {
-        static let imageWidth: CGFloat = 50.0
-        static let itemHeight: CGFloat = 80.0
-        static let spacing: CGFloat = 16.0
-    }
-    
     let character: Character
     
     var body: some View {
@@ -20,21 +14,21 @@ struct CharacterItemView: View {
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
                     .square(with: AppLayout.List.imageHeight)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: AppLayout.cornerRadius)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: AppLayout.cornerRadius)
-                            .stroke(lineWidth: 1)
-                            .foregroundColor(Color.rmNavy)
-                    )
             } placeholder: {
                 ZStack {
-                    Color.gray.opacity(0.4)
-                        .square(with: Constants.imageWidth)
+                    Color.gray.opacity(AppLayout.opacity)
+                        .square(with: AppLayout.List.imageHeight)
                     ProgressView()
                 }
             }
+            .clipShape(
+                RoundedRectangle(cornerRadius: AppLayout.cornerRadius)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: AppLayout.cornerRadius)
+                    .stroke(lineWidth: AppLayout.strokeWidth)
+                    .foregroundColor(Color.rmNavy)
+            )
             Text(character.name)
             Spacer(minLength: .zero)
         }

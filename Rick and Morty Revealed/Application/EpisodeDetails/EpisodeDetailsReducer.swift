@@ -30,6 +30,7 @@ struct EpisodeDetails {
                 state.isLoading = true
                 
                 return .run { [number = state.episodeNumber] send in
+                    try await Task.sleep(seconds: 0.5)
                     await send(.episodeResponse(Result { try await apiClient.episode(number: number) }))
                 }
             
@@ -42,7 +43,6 @@ struct EpisodeDetails {
                 state.isLoading = false
                 return .run { send in
                     await toastManager.showToast(message: error.localizedDescription)
-                    await dismiss()
                 }
             }
         }

@@ -32,6 +32,6 @@ extension View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: AppLayout.cornerRadius)
-                .fill( Color.rmWhite.opacity(0.4)))
+                    .fill( Color.rmWhite.opacity(AppLayout.opacity)))
     }
 }

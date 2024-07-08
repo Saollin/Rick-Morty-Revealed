@@ -63,7 +63,7 @@ struct CharactersList {
                 state.currentPage = 1
                 state.isLoading = true
                 return .run(operation: { [page = state.currentPage] send in
-                        try await Task.sleep(seconds: 1)
+                    try await Task.sleep(seconds: 0.8)
                         await send(.charactersResponse(Result { try await apiClient.characters(page)}))
                     })
                     .cancellable(id: CancelID.characters)
@@ -112,9 +112,6 @@ struct CharactersList {
             case .onDisappear:
                 return .cancel(id: CancelID.characters)
             
-//            case .characters(.element(id: _, action: .backButtonTapped)):
-                
-                
             case .characters:
                 return .none
                 

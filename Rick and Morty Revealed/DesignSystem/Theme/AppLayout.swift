@@ -10,6 +10,8 @@ enum AppLayout {
     static let cornerRadius: CGFloat = 16.0
     static let buttonHeight: CGFloat = 60.0
     static let margin: CGFloat = 16.0
+    static let opacity: CGFloat = 0.4
+    static let strokeWidth: CGFloat = 1.0
     
     enum List {
         static let itemOpacity: CGFloat = 0.7

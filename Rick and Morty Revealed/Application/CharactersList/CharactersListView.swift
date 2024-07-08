@@ -17,6 +17,9 @@ struct CharactersListView: View {
                     .padding(.bottom, AppLayout.margin)
                 if store.isInstructionVisible {
                     instruction
+                } else if store.characters.isEmpty {
+                    Text("Brak danych")
+                        .verticalCenter()
                 } else {
                     list
                 }
