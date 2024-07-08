@@ -47,11 +47,6 @@ class APIManager {
         return try await perform(route, body: body)
     }
     
-    func get<Response>(url: URL) async throws -> Response where Response: Decodable {
-        let body: EmptyRequest? = nil
-        return try await perform(url: url, body: body)
-    }
-    
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom { decoder in

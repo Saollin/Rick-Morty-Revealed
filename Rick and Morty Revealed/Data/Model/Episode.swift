@@ -8,7 +8,7 @@ import Foundation
 struct Episode: Decodable, Equatable, Identifiable, Sendable {
     enum CodingKeys: String, CodingKey {
         case airDate = "air_date"
-        case episodeCode = "episode"
+        case episodeCode = "epiode"
         case id, name, characters
     }
     

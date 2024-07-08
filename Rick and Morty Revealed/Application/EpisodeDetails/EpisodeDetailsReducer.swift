@@ -20,6 +20,8 @@ struct EpisodeDetails {
     }
     
     @Dependency(\.apiClient) var apiClient
+    @Dependency(\.toastManager) var toastManager
+    @Dependency(\.dismiss) var dismiss
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -36,9 +38,12 @@ struct EpisodeDetails {
                 state.episode = episode
                 return .none
                 
-            case .episodeResponse(.failure):
+            case .episodeResponse(.failure(let error)):
                 state.isLoading = false
-                return .none
+                return .run { send in
+                    await toastManager.showToast(message: error.localizedDescription)
+                    await dismiss()
+                }
             }
         }
     }

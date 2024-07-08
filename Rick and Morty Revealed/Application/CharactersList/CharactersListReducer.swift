@@ -10,6 +10,7 @@ import ComposableArchitecture
 struct CharactersList {
     @ObservableState
     struct State: Equatable {
+        var toastContent: Toast? = nil
         var characters = IdentifiedArrayOf<CharacterDetails.State>()
         
         var currentPage = 1
@@ -24,7 +25,8 @@ struct CharactersList {
         }
     }
     
-    enum Action {
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
         case charactersResponse(Result<[Character], Error>)
         case loadingActive(Bool)
         case loadingPageActive(Bool)
@@ -37,10 +39,13 @@ struct CharactersList {
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.uuid) var uuid
+    @Dependency(\.toastManager) var toastManager
     
     private enum CancelID { case characters }
     
     var body: some Reducer<State, Action> {
+        BindingReducer()
+        
         Reduce { state, action in
             switch action {
             case .loadButtonTapped:
@@ -68,7 +73,6 @@ struct CharactersList {
                     !state.isLoadingPage
                 else { return .none }
                 
-                debugPrint("retrieving next")
                 state.currentPage += 1
                 state.isLoadingPage = true
                 return .run(operation: { [page = state.currentPage] send in
@@ -77,7 +81,6 @@ struct CharactersList {
                     .cancellable(id: CancelID.characters)
                 
             case .charactersResponse(.success(let characters)):
-                debugPrint("success", characters.count)
                 characters.forEach { character in
                     state.characters.append(CharacterDetails.State(
                         id: uuid(),
@@ -92,10 +95,11 @@ struct CharactersList {
                 return .none
                 
             case .charactersResponse(.failure(let error)):
-                debugPrint("fail", String(describing: error))
                 state.isLoadingPage = false
                 state.isLoading = false
-                return .none
+                return .run { send in
+                    await toastManager.showToast(message: error.localizedDescription)
+                }
                 
             case .loadingActive(let isLoading):
                 state.isLoading = isLoading
@@ -107,8 +111,11 @@ struct CharactersList {
 
             case .onDisappear:
                 return .cancel(id: CancelID.characters)
-                
+            
             case .characters:
+                return .none
+                
+            case .binding(_):
                 return .none
             }
         }

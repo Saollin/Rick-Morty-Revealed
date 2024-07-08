@@ -18,7 +18,3 @@ struct DescriptionView: View {
         }
     }
 }
-
-//#Preview {
-//    DescriptionView()
-//}
