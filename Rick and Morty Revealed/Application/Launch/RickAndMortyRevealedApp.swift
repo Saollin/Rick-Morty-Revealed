@@ -12,11 +12,15 @@ import ComposableArchitecture
 struct RickAndMortyRevealedApp: App {
     var body: some Scene {
         WindowGroup {
-            CharactersListView(
-                store: Store(initialState: CharactersList.State()) {
-                    CharactersList()
-                        ._printChanges()
-                })
+            WithPerceptionTracking {
+                NavigationView {
+                    CharactersListView(
+                        store: Store(initialState: CharactersList.State()) {
+                            CharactersList()
+                                ._printChanges()
+                        })
+                }
+            }
         }
     }
 }

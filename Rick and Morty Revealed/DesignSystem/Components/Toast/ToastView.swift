@@ -17,7 +17,7 @@ enum ToastStyle {
 extension ToastStyle {
     var themeColor: Color {
         switch self {
-        case .error: return .red
+        case .error: return .rmError
         case .warning: return .orange
         case .info: return .blue
         case .success: return .green

@@ -16,8 +16,7 @@ struct CharactersList {
         var currentPage = 1
         var isLoading = false
         var isLoadingPage = false
-        var isLoaded = false
-        var isListHidden = true
+        var isInstructionVisible = true
         
         func isLastItem(_ item: UUID) -> Bool {
             let itemIndex = characters.firstIndex(where: { $0.id == item })
@@ -31,6 +30,7 @@ struct CharactersList {
         case loadingActive(Bool)
         case loadingPageActive(Bool)
         case loadButtonTapped
+        case instructionButtonTapped
         case retrieve
         case retrieveNextPageIfNeeded(currentItem: UUID)
         case characters(IdentifiedActionOf<CharacterDetails>)
@@ -49,13 +49,13 @@ struct CharactersList {
         Reduce { state, action in
             switch action {
             case .loadButtonTapped:
-                guard state.isLoaded else {
-                    return .run { send in
-                        await send(.retrieve)
-                    }
-                    .cancellable(id: CancelID.characters)
+                return .run { send in
+                    await send(.retrieve)
                 }
-                state.isListHidden.toggle()
+                .cancellable(id: CancelID.characters)
+                
+            case .instructionButtonTapped:
+                state.isInstructionVisible = true
                 return .none
                 
             case .retrieve:
@@ -63,6 +63,7 @@ struct CharactersList {
                 state.currentPage = 1
                 state.isLoading = true
                 return .run(operation: { [page = state.currentPage] send in
+                        try await Task.sleep(seconds: 1)
                         await send(.charactersResponse(Result { try await apiClient.characters(page)}))
                     })
                     .cancellable(id: CancelID.characters)
@@ -89,8 +90,7 @@ struct CharactersList {
                 }
                 state.isLoadingPage = false
                 state.isLoading = false
-                state.isLoaded = true
-                state.isListHidden = false
+                state.isInstructionVisible = false
                 
                 return .none
                 
@@ -112,6 +112,9 @@ struct CharactersList {
             case .onDisappear:
                 return .cancel(id: CancelID.characters)
             
+//            case .characters(.element(id: _, action: .backButtonTapped)):
+                
+                
             case .characters:
                 return .none
                 

@@ -7,14 +7,14 @@ import Foundation
 
 struct Episode: Decodable, Equatable, Identifiable, Sendable {
     enum CodingKeys: String, CodingKey {
-        case airDate = "air_date"
-        case episodeCode = "epiode"
+        case airDateString = "air_date"
+        case episodeCode = "episode"
         case id, name, characters
     }
     
     var id: Int
     var name: String
-    var airDate: String
+    var airDateString: String
     var episodeCode: String
     var characters: [String]
 }
@@ -23,7 +23,7 @@ extension Episode {
     static let mock = Episode(
         id: 28, 
         name: "The Ricklantis Mixup",
-        airDate: "September 10, 2017",
+        airDateString: "September 10, 2017",
         episodeCode: "S03E07",
         characters: [
             "https://rickandmortyapi.com/api/character/1",

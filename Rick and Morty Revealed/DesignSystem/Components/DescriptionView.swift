@@ -10,11 +10,19 @@ struct DescriptionView: View {
     let value: String
     
     var body: some View {
-        HStack {
+        VStack(alignment: .center) {
             Text(info)
-                .italic()
-            Spacer()
+                .font(.footnote)
+            
             Text(value)
+                .descriptionStyle()
         }
     }
+}
+
+#Preview {
+    DescriptionView(
+        info: "Miejsce pochodzenia",
+        value: "Earth (replacement dimension)"
+    )
 }

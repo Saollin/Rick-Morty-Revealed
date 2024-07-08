@@ -14,6 +14,7 @@ struct CharacterDetailsView: View {
     }
 
     @Perception.Bindable var store: StoreOf<CharacterDetails>
+    @SwiftUI.Environment(\.dismiss) private var dismiss
     
     var character: Character {
         store.character
@@ -21,63 +22,98 @@ struct CharacterDetailsView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            ScrollView {
-                VStack(spacing: Constants.spacing) {
-                    AsyncImage(url: URL(string: character.image)!) { image in
-                        image.resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .square(with: Constants.imageWidth)
-                    } placeholder: {
-                        ZStack {
-                            Color.gray.opacity(0.4)
-                                .square(with: Constants.imageWidth)
-                            ProgressView()
-                        }
+            VStack {
+                HeaderView(title: "O bohaterze")
+                LoadButton(
+                    title: "Wróć do listy bohaterów",
+                    action: {
+                        dismiss()
                     }
-                    Text(character.name)
-                        .font(.title)
-                    VStack {
-                        DescriptionView(
-                            info: "Status",
-                            value: character.status.rawValue
-                        )
-                        DescriptionView(
-                            info: "Gender",
-                            value: character.gender.rawValue
-                        )
-                        DescriptionView(
-                            info: "Origin location",
-                            value: character.origin.name
-                        )
-                        DescriptionView(
-                            info: "Current location",
-                            value: character.location.name
-                        )
-                    }
-                    Text("List of episodes")
-                        .font(.headline)
+                )
+                .padding(.bottom, AppLayout.spacing)
                 
-                    LazyVStack {
-                        ForEach(store.character.episodesNumber, id: \.self) { number in
-                            WithPerceptionTracking {
-                                Text("Episode \(number)")
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .border(.red)
-                                    .onTapGesture {
-                                        store.send(.episodeTapped(number: number))
-                                    }
-                            }
-                        }
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: Constants.spacing) {
+                        image
+                        info
+                        list
                     }
+                    
                 }
-                
             }
-            .navigationTitle("Character details")
-            .padding(.horizontal, 16.0)
         }
+        .navigationBarHidden(true)
+        .appBackgroundStyle()
         .sheet(item: $store.scope(state: \.episodeDetails, action: \.episodeDetails)) { episodeDetailsStore in
                 EpisodeDetailsView(store: episodeDetailsStore)
+        }
+    }
+    
+    private var image: some View {
+        AsyncImage(url: URL(string: character.image)!) { image in
+            image.resizable()
+                .aspectRatio(contentMode: .fit)
+                .square(with: Constants.imageWidth)
+                
+        } placeholder: {
+            ZStack {
+                Color.gray.opacity(0.4)
+                    .square(with: Constants.imageWidth)
+                ProgressView()
+            }
+        }
+        .clipShape(Circle())
+        .overlay {
+            Circle()
+                .stroke(lineWidth: 4)
+                .foregroundStyle(Color.rmYellow)
+        }
+    }
+    
+    private var info: some View {
+        VStack {
+            Text(character.name.uppercased())
+                .font(.system(size: 35))
+                .sectionTitleStyle()
+            
+            DescriptionView(
+                info: "Stan",
+                value: character.status.description
+            )
+            DescriptionView(
+                info: "Płeć",
+                value: character.gender.description
+            )
+            DescriptionView(
+                info: "Miejsce pochodzenia",
+                value: character.origin.name
+            )
+            DescriptionView(
+                info: "Obecna lokalizacja",
+                value: character.location.name
+            )
+        }
+    }
+    
+    @ViewBuilder
+    private var list: some View {
+        Text("Lista odcinków")
+            .font(.headline)
+            .sectionTitleStyle()
+        
+        LazyVStack {
+            ForEach(store.character.episodesNumber, id: \.self) { number in
+                WithPerceptionTracking {
+                    ListItemView {
+                        Spacer(minLength: .zero)
+                        Text("Odcinek \(number)")
+                        Spacer(minLength: .zero)
+                    }
+                    .onTapGesture {
+                        store.send(.episodeTapped(number: number))
+                    }
+                }
+            }
         }
     }
 }
